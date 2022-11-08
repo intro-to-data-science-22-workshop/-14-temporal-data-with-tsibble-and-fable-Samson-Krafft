@@ -30,7 +30,8 @@ knitr::opts_chunk$set(echo = TRUE,
 ***
 
 ```{r, include = T}
-#REQUIRED PACKAGES
+library(tsibble)
+library(fable)
 ```
 
 <br>
