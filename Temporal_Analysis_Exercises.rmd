@@ -1,0 +1,73 @@
+---
+title: "IDS WORKSHOP 22 - Temporal data with Tsibble and Fable"
+author: ""
+date: "`r format(Sys.time(), '%B %d, %Y | %H:%M:%S | %Z')`"
+output:
+  html_document:
+    code_folding: show
+    df_print: paged
+    highlight: tango
+    number_sections: no
+    theme: cosmo
+    toc: no
+---
+  
+<style>
+div.answer {background-color:#f3f0ff; border-radius: 5px; padding: 20px;}
+</style>
+
+```{r, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = TRUE,
+                      error = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      comment = NA)
+```
+
+<!-- Do not forget to input your Github username in the YAML configuration up there --> 
+
+***
+
+```{r, include = T}
+#REQUIRED PACKAGES
+```
+
+<br>
+
+***
+
+### Task 1 - TASK TITEL [X points in total]
+
+TASK DESCRIPTION
+
+a) EXERCISE DESCRIPTION [X points]
+
+```{r}
+
+```
+
+<br>
+
+b) EXERCISE DESCRIPTION [X points]
+
+```{r}
+# Put Your Code here
+```
+
+<br>
+
+c) EXERCISE DESCRIPTION [X points]
+
+```{r}
+# Put Your Code here
+```
+
+<br>
+
+d) EXERCISE DESCRIPTION [X points]
+
+
+```{r}
+# Put Your Code here
+```
