@@ -51,6 +51,7 @@ library(urca)
 <br>
 
 ------------------------------------------------------------------------
+
 # Tsibble Code
 
 **Important concepts** - tsibble object - index variable - key
@@ -148,6 +149,7 @@ fit %>%
 ```
 
 # Scaling up even further (not included on the slides)
+
 ```{r}
 fit <- tourism_t_trips %>% 
   model(
