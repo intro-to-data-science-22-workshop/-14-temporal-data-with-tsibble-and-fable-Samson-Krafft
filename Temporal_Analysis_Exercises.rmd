@@ -10,12 +10,16 @@ output:
     number_sections: no
     theme: cosmo
     toc: no
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
-  
+
+```{=html}
 <style>
 div.answer {background-color:#f3f0ff; border-radius: 5px; padding: 20px;}
 </style>
-
+```
 ```{r, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE,
                       eval = TRUE,
@@ -25,49 +29,123 @@ knitr::opts_chunk$set(echo = TRUE,
                       comment = NA)
 ```
 
-<!-- Do not forget to input your Github username in the YAML configuration up there --> 
+<!-- Do not forget to input your Github username in the YAML configuration up there -->
 
-***
+------------------------------------------------------------------------
+
+### Workshop Packages
 
 ```{r, include = T}
 library(tsibble)
 library(fable)
+library(feasts)
+library(tsibbledata)
+```
+
+### Supplementary Packages
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
 ```
 
 <br>
 
-***
+------------------------------------------------------------------------
 
-### Task 1 - TASK TITEL [X points in total]
+### Task 1 - Temporal Data with Tsibble [X points in total]
+
+**Important concepts** - tsibble object - index variable - key
+variable - multiple time series in one tsibble object - time class
+function
+
+**functions used**: - tsibble() - mutate() + yearmonth() - autoplot()
+from ggplot2
 
 TASK DESCRIPTION
 
-a) EXERCISE DESCRIPTION [X points]
+a)  Create a tsibble object [X points]
 
 ```{r}
-
+y <- tsibble(
+  Year = 2015:2019,
+  Observation = c(123, 39, 78, 52, 110),
+  index = Year
+)
 ```
 
 <br>
 
-b) EXERCISE DESCRIPTION [X points]
-
-```{r}
-# Put Your Code here
-```
-
-<br>
-
-c) EXERCISE DESCRIPTION [X points]
+b)  convert "monthly/weekly/daily" data into tsibble object [X points]
 
 ```{r}
 # Put Your Code here
+
+z <- data.frame(Month = c("2022 Jan", "2022 Feb", "2022 Mar", "2022 Apr", "2022 May"),
+                Observations = c(50, 23, 34, 30, 25))
+
+z %>%
+  mutate(Month = yearmonth(Month)) %>%
+  as_tsibble(index = Month)
 ```
 
 <br>
 
-d) EXERCISE DESCRIPTION [X points]
+d)  Multiple time-series in one object [X points]
 
+```{r}
+# Put Your Your Code here
+olympic_running
+```
+
+<br>
+
+d)  Read a CSV file into tsibble and convert it to a tsibble [X points]
+
+```{r}
+# Put Your Code here
+
+prison <- readr::read_csv("https://OTexts.com/fpp3/extrafiles/prison_population.csv")
+prison <- prison %>%
+  mutate(Quarter = yearquarter(Date)) %>%
+  select(-Date) %>%
+  as_tsibble(key = c(State, Gender, Legal, Indigenous),
+             index = Quarter)
+```
+
+<br>
+
+d)  dplyr and tsibble [X points]
+
+```{r}
+# Put Your Code here
+a10 <- PBS %>% 
+  filter(ATC == "A10") %>% 
+  select(Month, Concession, Type, Cost) %>%
+  summarise(TotalC = sum(Cost)) %>% # combine data across keys
+  mutate(Cost = TotalC/1e6) # change units from dollars to million of dollar
+```
+
+<br>
+
+d)  Time plots [X points]
+
+```{r}
+# Put Your Code here
+
+melsyd_economy <- ansett %>%
+  filter(Airports == "MEL-SYD", Class == "Economy") %>%
+  mutate(Passengers = Passengers/1000)
+autoplot(melsyd_economy, Passengers) +
+  labs(title = "Ansett airlines economy class",
+       subtitle = "Melbourne-Sydney",
+       y = "Passengers ('000)")
+```
+
+<br>
+
+d)  EXERCISE DESCRIPTION [X points]
 
 ```{r}
 # Put Your Code here
