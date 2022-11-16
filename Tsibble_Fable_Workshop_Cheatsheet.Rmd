@@ -228,7 +228,7 @@ tourism_t_trips %>%
     arima = ARIMA(Trips),
     lm = TSLM(Trips ~ trend() + season())
   ) %>% 
-  forecast(h = " years") %>% 
+  forecast(h = "3 years") %>% 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
   labs(y = "Total Trips",
        title = "Total Australian domestic overnight trips")
@@ -247,7 +247,7 @@ tourism_t_trips %>%
     lm = TSLM(Trips ~ trend() + season())
   ) %>% 
   # Forecast the witheld time peroid (2015-2017)
-  forecast(h = " years") %>% 
+  forecast(h = "3 years") %>% 
   # Compute a plot of the forecasts relative to the actual data 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
   labs(y = "Total Trips",
