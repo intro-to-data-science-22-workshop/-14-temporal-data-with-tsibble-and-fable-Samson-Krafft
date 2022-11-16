@@ -27,8 +27,8 @@ For those who are keen to learn more, please check out the list of further resou
 - [tsibble overview at dplyr.tidyverse.org](https://tsibble.tidyverts.org)
 - [fable overview at dplyr.tidyverse.org](https://fable.tidyverts.org)
 - [Cran Webpage by Tsibble Creator](http://cran.nexr.com/web/packages/tsibble/vignettes/intro-tsibble.html)
-- [Cran Package for tsibble] (https://cran.r-project.org/web/packages/tsibble/tsibble.pdf)
-- [Cran Package for fable] (https://cran.r-project.org/web/packages/fable/fable.pdf)
+- [Cran Package for tsibble](https://cran.r-project.org/web/packages/tsibble/tsibble.pdf)
+- [Cran Package for fable](https://cran.r-project.org/web/packages/fable/fable.pdf)
 - [Hands-on fable tutorial by Package maintainer](https://www.mitchelloharawild.com/blog/fable/)
 - [Forecasting: Principles and Practice - Online Book](https://otexts.com/fpp3/]
 
