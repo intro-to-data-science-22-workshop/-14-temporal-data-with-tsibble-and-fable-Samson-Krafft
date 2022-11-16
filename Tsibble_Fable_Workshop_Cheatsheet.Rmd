@@ -219,20 +219,36 @@ fit %>%
 
 ## Train - Test Split
 
-
 ```{r}
-tourism_t_trips %>% 
+tt_split <- tourism_t_trips %>% 
   filter(Quarter < yearquarter("2015 Q1")) %>% 
   model(
     ets = ETS(Trips),
     arima = ARIMA(Trips),
     lm = TSLM(Trips ~ trend() + season())
-  ) %>% 
+  )
+```
+
+```{r}
+tt_split %>% 
+  glance()
+```
+
+```{r}
+tt_split %>% 
   forecast(h = "3 years") %>% 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
   labs(y = "Total Trips",
        title = "Total Australian domestic overnight trips")
 ```
+
+```{r}
+tt_split %>% 
+  forecast(h = "3 years") %>% 
+  accuracy(tourism_t_trips)
+```
+```
+
 
 
 

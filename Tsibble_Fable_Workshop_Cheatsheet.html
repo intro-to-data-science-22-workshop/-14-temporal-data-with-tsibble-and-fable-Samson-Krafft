@@ -375,7 +375,7 @@ Krafft</h4>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>y</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
-{"columns":[{"label":["mth"],"name":[1],"type":["mth"],"align":["right"]},{"label":["a_observation"],"name":[2],"type":["chr"],"align":["left"]},{"label":["b_observation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010 Jan","2":"x","3":"a","4":"0.42575197"},{"1":"2010 Feb","2":"x","3":"a","4":"-0.22840264"},{"1":"2010 Mar","2":"x","3":"a","4":"0.72254258"},{"1":"2010 Jan","2":"x","3":"b","4":"0.22998378"},{"1":"2010 Feb","2":"x","3":"b","4":"1.53088089"},{"1":"2010 Mar","2":"x","3":"b","4":"-0.79703681"},{"1":"2010 Jan","2":"x","3":"c","4":"0.08891930"},{"1":"2010 Feb","2":"x","3":"c","4":"-0.31344406"},{"1":"2010 Mar","2":"x","3":"c","4":"-0.99027197"},{"1":"2010 Apr","2":"y","3":"a","4":"0.38695544"},{"1":"2010 May","2":"y","3":"a","4":"-0.02810467"},{"1":"2010 Jun","2":"y","3":"a","4":"0.88134349"},{"1":"2010 Apr","2":"y","3":"b","4":"-0.10197339"},{"1":"2010 May","2":"y","3":"b","4":"0.60372385"},{"1":"2010 Jun","2":"y","3":"b","4":"-0.34627523"},{"1":"2010 Apr","2":"y","3":"c","4":"1.31546107"},{"1":"2010 May","2":"y","3":"c","4":"-0.97495063"},{"1":"2010 Jun","2":"y","3":"c","4":"1.24841545"},{"1":"2010 Jul","2":"z","3":"a","4":"0.51773606"},{"1":"2010 Aug","2":"z","3":"a","4":"0.11322076"},{"1":"2010 Sep","2":"z","3":"a","4":"3.20933563"},{"1":"2010 Jul","2":"z","3":"b","4":"0.57824696"},{"1":"2010 Aug","2":"z","3":"b","4":"-1.34146959"},{"1":"2010 Sep","2":"z","3":"b","4":"-1.63524767"},{"1":"2010 Jul","2":"z","3":"c","4":"0.81213815"},{"1":"2010 Aug","2":"z","3":"c","4":"0.30000271"},{"1":"2010 Sep","2":"z","3":"c","4":"0.25482696"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["mth"],"name":[1],"type":["mth"],"align":["right"]},{"label":["a_observation"],"name":[2],"type":["chr"],"align":["left"]},{"label":["b_observation"],"name":[3],"type":["chr"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"2010 Jan","2":"x","3":"a","4":"0.72424902"},{"1":"2010 Feb","2":"x","3":"a","4":"0.37006331"},{"1":"2010 Mar","2":"x","3":"a","4":"-0.45704726"},{"1":"2010 Jan","2":"x","3":"b","4":"-2.22266098"},{"1":"2010 Feb","2":"x","3":"b","4":"-2.02700023"},{"1":"2010 Mar","2":"x","3":"b","4":"-0.32656990"},{"1":"2010 Jan","2":"x","3":"c","4":"-0.39033428"},{"1":"2010 Feb","2":"x","3":"c","4":"-0.80460739"},{"1":"2010 Mar","2":"x","3":"c","4":"-0.69142957"},{"1":"2010 Apr","2":"y","3":"a","4":"0.02306262"},{"1":"2010 May","2":"y","3":"a","4":"1.76813150"},{"1":"2010 Jun","2":"y","3":"a","4":"-1.23481284"},{"1":"2010 Apr","2":"y","3":"b","4":"-0.62752245"},{"1":"2010 May","2":"y","3":"b","4":"2.03624301"},{"1":"2010 Jun","2":"y","3":"b","4":"0.52147359"},{"1":"2010 Apr","2":"y","3":"c","4":"-0.50578154"},{"1":"2010 May","2":"y","3":"c","4":"0.60529868"},{"1":"2010 Jun","2":"y","3":"c","4":"-1.70518076"},{"1":"2010 Jul","2":"z","3":"a","4":"0.87832748"},{"1":"2010 Aug","2":"z","3":"a","4":"-1.04955388"},{"1":"2010 Sep","2":"z","3":"a","4":"-0.52507988"},{"1":"2010 Jul","2":"z","3":"b","4":"1.38195648"},{"1":"2010 Aug","2":"z","3":"b","4":"0.28050037"},{"1":"2010 Sep","2":"z","3":"b","4":"-0.24514722"},{"1":"2010 Jul","2":"z","3":"c","4":"-1.82162529"},{"1":"2010 Aug","2":"z","3":"c","4":"-1.23267132"},{"1":"2010 Sep","2":"z","3":"c","4":"0.59682364"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 <p>Observe that the <code>index</code> is automatically assigned
@@ -563,69 +563,91 @@ class="section level2">
 </div>
 <div id="train---test-split" class="section level2">
 <h2>Train - Test Split</h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tourism_t_trips <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="ot">&lt;-</span> tourism_t_trips <span class="sc">%&gt;%</span> </span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> <span class="fu">yearquarter</span>(<span class="st">&quot;2015 Q1&quot;</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ets =</span> <span class="fu">ETS</span>(Trips),</span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima =</span> <span class="fu">ARIMA</span>(Trips),</span>
 <span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(Trips <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())</span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tourism_t_trips, <span class="at">level =</span> <span class="dv">80</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Total Trips&quot;</span>,</span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Total Australian domestic overnight trips&quot;</span>)</span></code></pre></div>
-<p><img src="Tsibble_Fable_Workshop_Cheatsheet_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tourism_t_trips <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Withhold the last 3 years before fitting the model</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> <span class="fu">yearquarter</span>(<span class="st">&quot;2015 Q1&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate the models on the training data (1998-2014)</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ets =</span> <span class="fu">ETS</span>(Trips),</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima =</span> <span class="fu">ARIMA</span>(Trips),</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(Trips <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())</span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Forecast the witheld time peroid (2015-2017)</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute a plot of the forecasts relative to the actual data </span></span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tourism_t_trips, <span class="at">level =</span> <span class="dv">80</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Total Trips&quot;</span>,</span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Total Australian domestic overnight trips&quot;</span>)</span></code></pre></div>
-<p><img src="Tsibble_Fable_Workshop_Cheatsheet_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="ot">&lt;-</span> tourism_t_trips <span class="sc">%&gt;%</span> </span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Withhold the last 3 years before fitting the model</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> <span class="fu">yearquarter</span>(<span class="st">&quot;2015 Q1&quot;</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate the models on the training data (1998-2014)</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ets =</span> <span class="fu">ETS</span>(Trips),</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima =</span> <span class="fu">ARIMA</span>(Trips),</span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(Trips <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())</span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>()</span></code></pre></div>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>()</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[".model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sigma2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["log_lik"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["AICc"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MSE"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["AMSE"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["MAE"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ar_roots"],"name":[10],"type":["list"],"align":["right"]},{"label":["ma_roots"],"name":[11],"type":["list"],"align":["right"]},{"label":["r_squared"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["adj_r_squared"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["p_value"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[16],"type":["int"],"align":["right"]},{"label":["CV"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["df.residual"],"name":[19],"type":["int"],"align":["right"]},{"label":["rank"],"name":[20],"type":["int"],"align":["right"]}],"data":[{"1":"ets","2":"1.710759e-03","3":"-599.6130","4":"1213.2260","5":"1215.0927","6":"1228.7626","7":"679346.5","8":"828273.4","9":"0.03049407","10":"<NULL>","11":"<NULL>","12":"NA","13":"NA","14":"NA","15":"NA","16":"NA","17":"NA","18":"NA","19":"NA","20":"NA"},{"1":"arima","2":"1.018640e+06","3":"-532.6045","4":"1073.2091","5":"1073.8870","6":"1081.8446","7":"NA","8":"NA","9":"NA","10":"<cpl [5]>","11":"<cpl [1]>","12":"NA","13":"NA","14":"NA","15":"NA","16":"NA","17":"NA","18":"NA","19":"NA","20":"NA"},{"1":"lm","2":"1.347454e+06","3":"-573.7579","4":"966.5401","5":"967.9171","6":"979.8571","7":"NA","8":"NA","9":"NA","10":"<NULL>","11":"<NULL>","12":"0.3066767","13":"0.2626562","14":"6.966676","15":"0.0001040512","16":"5","17":"1469474","18":"84889583","19":"63","20":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tourism_t_trips, <span class="at">level =</span> <span class="dv">80</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Total Trips&quot;</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Total Australian domestic overnight trips&quot;</span>)</span></code></pre></div>
+<p><img src="Tsibble_Fable_Workshop_Cheatsheet_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Forecast the witheld time peroid (2015-2017)</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute accuracy of the forecasts relative to the actual data </span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tourism_t_trips)</span></code></pre></div>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tourism_t_trips)</span></code></pre></div>
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":[".model"],"name":[1],"type":["chr"],"align":["left"]},{"label":[".type"],"name":[2],"type":["chr"],"align":["left"]},{"label":["ME"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RMSE"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["MAE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["MPE"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MAPE"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["MASE"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["RMSSE"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ACF1"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"arima","2":"Test","3":"1396.660","4":"1794.699","5":"1452.471","6":"5.306817","7":"5.537458","8":"1.584544","9":"1.491375","10":"0.4958699"},{"1":"ets","2":"Test","3":"1894.779","4":"2280.541","5":"1908.836","6":"7.228598","7":"7.284772","8":"2.082405","9":"1.895105","10":"0.6127302"},{"1":"lm","2":"Test","3":"4664.145","4":"4822.106","5":"4664.145","6":"18.089404","7":"18.089404","8":"5.088254","9":"4.007118","10":"0.6336985"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Forecast the witheld time peroid (2015-2017)</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute accuracy of the forecasts relative to the actual data </span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tourism_t_trips, <span class="at">level =</span> <span class="dv">80</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Total Trips&quot;</span>,</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Total Australian domestic overnight trips&quot;</span>)</span></code></pre></div>
+<pre><code>
+
+
+
+
+```r
+tourism_t_trips %&gt;% 
+  # Withhold the last 3 years before fitting the model
+  filter(Quarter &lt; yearquarter(&quot;2015 Q1&quot;)) %&gt;% 
+  # Estimate the models on the training data (1998-2014)
+  model(
+    ets = ETS(Trips),
+    arima = ARIMA(Trips),
+    lm = TSLM(Trips ~ trend() + season())
+  ) %&gt;% 
+  # Forecast the witheld time peroid (2015-2017)
+  forecast(h = &quot;3 years&quot;) %&gt;% 
+  # Compute a plot of the forecasts relative to the actual data 
+  autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
+  labs(y = &quot;Total Trips&quot;,
+       title = &quot;Total Australian domestic overnight trips&quot;)</code></pre>
 <p><img src="Tsibble_Fable_Workshop_Cheatsheet_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="ot">&lt;-</span> tourism_t_trips <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Withhold the last 3 years before fitting the model</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> <span class="fu">yearquarter</span>(<span class="st">&quot;2015 Q1&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Estimate the models on the training data (1998-2014)</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ets =</span> <span class="fu">ETS</span>(Trips),</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">arima =</span> <span class="fu">ARIMA</span>(Trips),</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">lm =</span> <span class="fu">TSLM</span>(Trips <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glance</span>()</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sigma2"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["log_lik"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["AIC"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["AICc"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["BIC"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MSE"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["AMSE"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["MAE"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ar_roots"],"name":[10],"type":["list"],"align":["right"]},{"label":["ma_roots"],"name":[11],"type":["list"],"align":["right"]},{"label":["r_squared"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["adj_r_squared"],"name":[13],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[14],"type":["dbl"],"align":["right"]},{"label":["p_value"],"name":[15],"type":["dbl"],"align":["right"]},{"label":["df"],"name":[16],"type":["int"],"align":["right"]},{"label":["CV"],"name":[17],"type":["dbl"],"align":["right"]},{"label":["deviance"],"name":[18],"type":["dbl"],"align":["right"]},{"label":["df.residual"],"name":[19],"type":["int"],"align":["right"]},{"label":["rank"],"name":[20],"type":["int"],"align":["right"]}],"data":[{"1":"ets","2":"1.710759e-03","3":"-599.6130","4":"1213.2260","5":"1215.0927","6":"1228.7626","7":"679346.5","8":"828273.4","9":"0.03049407","10":"<NULL>","11":"<NULL>","12":"NA","13":"NA","14":"NA","15":"NA","16":"NA","17":"NA","18":"NA","19":"NA","20":"NA"},{"1":"arima","2":"1.018640e+06","3":"-532.6045","4":"1073.2091","5":"1073.8870","6":"1081.8446","7":"NA","8":"NA","9":"NA","10":"<cpl [5]>","11":"<cpl [1]>","12":"NA","13":"NA","14":"NA","15":"NA","16":"NA","17":"NA","18":"NA","19":"NA","20":"NA"},{"1":"lm","2":"1.347454e+06","3":"-573.7579","4":"966.5401","5":"967.9171","6":"979.8571","7":"NA","8":"NA","9":"NA","10":"<NULL>","11":"<NULL>","12":"0.3066767","13":"0.2626562","14":"6.966676","15":"0.0001040512","16":"5","17":"1469474","18":"84889583","19":"63","20":"5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Forecast the witheld time peroid (2015-2017)</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute accuracy of the forecasts relative to the actual data </span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(tourism_t_trips)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".model"],"name":[1],"type":["chr"],"align":["left"]},{"label":[".type"],"name":[2],"type":["chr"],"align":["left"]},{"label":["ME"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["RMSE"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["MAE"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["MPE"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["MAPE"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["MASE"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["RMSSE"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["ACF1"],"name":[10],"type":["dbl"],"align":["right"]}],"data":[{"1":"arima","2":"Test","3":"1396.660","4":"1794.699","5":"1452.471","6":"5.306817","7":"5.537458","8":"1.584544","9":"1.491375","10":"0.4958699"},{"1":"ets","2":"Test","3":"1894.779","4":"2280.541","5":"1908.836","6":"7.228598","7":"7.284772","8":"2.082405","9":"1.895105","10":"0.6127302"},{"1":"lm","2":"Test","3":"4664.145","4":"4822.106","5":"4664.145","6":"18.089404","7":"18.089404","8":"5.088254","9":"4.007118","10":"0.6336985"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>tt_split <span class="sc">%&gt;%</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Forecast the witheld time peroid (2015-2017)</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">&quot;3 years&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Compute accuracy of the forecasts relative to the actual data </span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(tourism_t_trips, <span class="at">level =</span> <span class="dv">80</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y =</span> <span class="st">&quot;Total Trips&quot;</span>,</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Total Australian domestic overnight trips&quot;</span>)</span></code></pre></div>
+<p><img src="Tsibble_Fable_Workshop_Cheatsheet_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 </div>
 </div>
 
