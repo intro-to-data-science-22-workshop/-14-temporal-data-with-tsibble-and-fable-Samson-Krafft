@@ -126,9 +126,9 @@ ped_gaps %>%
 with NAs
 ```{r}
 ped_full <- tsbl_pedestrian %>% 
-  fill_gaps(.full = TRUE)
-ped_full %>% 
-  filter(is.na(Count))
+  fill_gaps(.full = TRUE) %>% 
+  has_gaps(.full = TRUE)
+ped_full
 ```
 all previously identified 4,139 observations now have NAs!
 
@@ -182,7 +182,10 @@ We are interested in the total amount of trips
 ```{r}
 tourism_t_trips <- tourism %>% 
   summarise(Trips = sum(Trips))
-tourism_t_trips
+
+tourism_t_trips %>% 
+  autoplot(Trips) +
+  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
 ```
 
 ## 2.Data Exploration
@@ -214,6 +217,22 @@ fit %>%
 
 ## Train - Test Split
 
+
+```{r}
+tourism_t_trips %>% 
+  filter(Quarter < yearquarter("2015 Q1")) %>% 
+  model(
+    ets = ETS(Trips),
+    arima = ARIMA(Trips),
+    lm = TSLM(Trips ~ trend() + season())
+  ) %>% 
+  forecast(h = " years") %>% 
+  autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
+  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+```
+
+
+
 ```{r}
 tourism_t_trips %>% 
   # Withhold the last 3 years before fitting the model
@@ -225,7 +244,7 @@ tourism_t_trips %>%
     lm = TSLM(Trips ~ trend() + season())
   ) %>% 
   # Forecast the witheld time peroid (2015-2017)
-  forecast(h = "3 years") %>% 
+  forecast(h = " years") %>% 
   # Compute a plot of the forecasts relative to the actual data 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
   labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
