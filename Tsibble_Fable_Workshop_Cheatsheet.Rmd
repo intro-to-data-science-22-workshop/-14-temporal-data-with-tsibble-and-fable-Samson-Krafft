@@ -47,7 +47,9 @@ library(feasts)
 # Tsibble
 
 
-## Object creation with 'tsibble()'
+## Object creation
+
+We can use `tsibble()` to create an object.
 
 ```{r}
 # Create a tsibble object from scratch
@@ -60,6 +62,8 @@ y <- tsibble(
 )
 y
 ```
+Observe that the `index` is automatically assigned `A tsibble:27 x 4 **[1M]**` and that there are two keys which
+
 
 ## Handle *implicit missing values*
 
@@ -67,20 +71,20 @@ What are implicit missing values and how are they different from explicit missin
 
 Implicit missing values represent a gap in the observations based on the time series index. Many operations assume that an intact vector input ordered in time, and thus, dealing with implicit missing values becomes relevant.
 
-Tsibble provides 4 functions that help to understand and deal with implicit missing values.
+`tsibble` provides 4 functions that help to understand and deal with implicit missing values.
 - (1) `has_gaps()` checks if there are implicit values missing
 - (2) `scan_gaps()` reports all missing values
-- (3) count_gaps() sums up the time ranges that are absent from the data
-- (4) fill_gaps() turns implicit missing values into explicit ones, along with imputing values by values or functions
+- (3) `count_gaps()` sums up the time ranges that are absent from the data
+- (4) `fill_gaps()` turns implicit missing values into explicit ones, along with imputing values by values or functions
 
-The "pedestrian" dataset contains the hourly pedestrian counts from 2015-01-01 to 2016-12-31 at 4 sensors in the city of Melbourne.
+The `pedestrian` dataset contains the hourly pedestrian counts from 2015-01-01 to 2016-12-31 at 4 sensors in the city of Melbourne.
 
 ```{r}
 df_pedestrian <- as.data.frame(pedestrian)
 df_pedestrian
 ```
 
-## 1. Lets turn the pedestrian dataframe into a tsibble object using "Sensor" as a key and "Data_Time" as index
+1. Lets turn the `pedestrian` dataframe into a `tsibble` object using `Sensor` as a key and `Data_Time` as index
 
 ```{r}
 tsbl_pedestrian <- df_pedestrian %>% 
@@ -88,7 +92,7 @@ tsbl_pedestrian <- df_pedestrian %>%
 tsbl_pedestrian
 ```
 
-## 2. Explore implicit missing values with "has, scan, and count_gaps"
+## 2. Explore implicit missing values with `has_gaps()`, `scan_gaps()`, and `count_gaps()`
 
 ```{r}
 has_gaps(tsbl_pedestrian, .full = TRUE)
@@ -185,7 +189,8 @@ tourism_t_trips
 
 ```{r}
 tourism_t_trips %>% 
-  autoplot(Trips)
+  autoplot(Trips) +
+  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
 ```
 
 What can we see? There is seasonality and a negative trend that turns
@@ -221,6 +226,42 @@ tourism_t_trips %>%
   ) %>% 
   # Forecast the witheld time peroid (2015-2017)
   forecast(h = "3 years") %>% 
+  # Compute a plot of the forecasts relative to the actual data 
+  autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
+  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+```
+
+```{r}
+tt_split <- tourism_t_trips %>% 
+  # Withhold the last 3 years before fitting the model
+  filter(Quarter < yearquarter("2015 Q1")) %>% 
+  # Estimate the models on the training data (1998-2014)
+  model(
+    ets = ETS(Trips),
+    arima = ARIMA(Trips),
+    lm = TSLM(Trips ~ trend() + season())
+  )
+
+tt_split %>% 
+  glance()
+```
+
+```{r}
+tt_split %>% 
+  # Forecast the witheld time peroid (2015-2017)
+  forecast(h = "3 years") %>% 
   # Compute accuracy of the forecasts relative to the actual data 
   accuracy(tourism_t_trips)
 ```
+
+
+```{r}
+tt_split %>% 
+  # Forecast the witheld time peroid (2015-2017)
+  forecast(h = "3 years") %>% 
+  # Compute accuracy of the forecasts relative to the actual data 
+  autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
+  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+```
+
+
