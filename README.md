@@ -30,7 +30,7 @@ For those who are keen to learn more, please check out the list of further resou
 - [Cran Package for tsibble](https://cran.r-project.org/web/packages/tsibble/tsibble.pdf)
 - [Cran Package for fable](https://cran.r-project.org/web/packages/fable/fable.pdf)
 - [Hands-on fable tutorial by Package maintainer](https://www.mitchelloharawild.com/blog/fable/)
-- [Forecasting: Principles and Practice - Online Book](https://otexts.com/fpp3/]
+- [Forecasting Principles and Practice - Online Textbook](https://otexts.com/fpp3/]
 
 
 ## License
