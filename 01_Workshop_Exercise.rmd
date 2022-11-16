@@ -1,0 +1,139 @@
+---
+title: "Exercise Solution: Temporal Data with Tsibble and Fable"
+author: "Justus v. Samson-Himmelstjerna & Oskar Krafft"
+institute: "Hertie School"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: TRUE
+    df_print: paged
+    number_sections: FALSE
+    highlight: tango
+    theme: lumen
+    toc_depth: 3
+    toc_float: true
+    css: magic/custom.css 
+    self_contained: false
+    includes:
+      after_body: HTML_sources/footer.html
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+```
+
+------------------------------------------------------------------------
+
+### Workshop Packages
+
+```{r, include = T}
+library(tsibble)
+library(fable)
+library(tsibbledata)
+```
+
+### Supplementary Packages
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ggplot2)
+```
+
+<br>
+
+------------------------------------------------------------------------
+
+### Task 1 - Introduction: Create Tsibble objects
+
+[2 points in total]
+
+TASK DESCRIPTION
+
+a)  Create a tsibble object that has "Year" as index and "Observation" key [0.5 points]
+
+```{r}
+my_year_vector <- 2010:2022
+my_observation_vector <- rpois(n = 13, lambda = 50)
+
+# Put your code here
+```
+
+b)  coerce the `z` into a `tsibble` object, setting `Month` as index [1.5 points]
+```{r}
+z <- data.frame(
+  Month = c("2022 Jan", "2022 Feb", "2022 Mar", "2022 Apr", "2022 May"),
+  Observations = c(50, 23, 34, 30, 25))%>% 
+  mutate(Month = yearmonth(Month)) # correcting for the irregular amount of days per month
+
+# Put your code here
+```
+
+------------------------------------------------------------------------
+
+### Task 2 - Forecasting Workflow: Data Preperation and Manipulation  
+
+[10 points in total]
+
+For the rest of the workshop, we will be using the `global_economy` dataset from the `tsibbledata` package.
+The dataset includes economic indicators featured by the World Bank from 1960 to 2017.
+
+```{r}
+global_economy
+```
+
+a)  Identify which countries contain implicit gaps over the full time range [2 points]]
+
+```{r}
+# Put your code here
+```
+
+b) compare your output to the output below and explain the different results [2 points]
+
+```{r}
+has_gaps(global_economy) %>% 
+  filter(.gaps == TRUE)
+```
+
+c) report the total number of implicit gaps in the dataset over the full time range [2 points]
+
+```{r}
+# Put your code here
+```
+
+d) Fill all the identified gaps with `NA`s and show in an output that there are no more implicit gaps [2 points]
+
+```{r}
+# Put your code here
+```
+
+### Task 3 - Forecasting Workflow: Model specification and forecasting  
+
+[18 points in total]
+
+First, let's prepare the data by creating our variable of interest: `GDP_per_capita`
+
+```{r}
+gdp_pc <-  %>% #INSERT YOUR OBJECT FROM 1d between pipe operator and assignment operator. If you did not complete 1d) use the original global_economy tsibble
+  mutate(GDP_per_capita = GDP / Population)
+```
+
+a) Using the `autoplot()` function, show the `GDP_per_capita` over time for China and Nigeria [6 points]
+
+```{r}
+# Put your code here
+```
+
+b) Filter for China and Nigeria and only use the `Years` up to 2009 to train the models. Fit a default `arima` model and a `TSLM` model with a linear time `trend()` to `GDP_per_capita`. Finally, use `glance()` to inspect the models [6 points]
+
+```{r}
+# Put your code here
+```
+
+
+c) Now, forecast 7 years and `autoplot()` both forecasts. Provide an interpretation of the output. Which model creates a better forecast. Use time series vocabulary in your interpretation of the model performance [6 points]
+
+```{r}
+# Put your code here
+```
+
