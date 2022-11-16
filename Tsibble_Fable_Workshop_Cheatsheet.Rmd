@@ -193,7 +193,8 @@ tourism_t_trips %>%
 ```{r}
 tourism_t_trips %>% 
   autoplot(Trips) +
-  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+  labs(y = "Total Trips",
+       title = "Total Australian domestic overnight trips")
 ```
 
 What can we see? There is seasonality and a negative trend that turns
@@ -228,7 +229,8 @@ tourism_t_trips %>%
   ) %>% 
   forecast(h = " years") %>% 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
-  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+  labs(y = "Total Trips",
+       title = "Total Australian domestic overnight trips")
 ```
 
 
@@ -247,7 +249,8 @@ tourism_t_trips %>%
   forecast(h = " years") %>% 
   # Compute a plot of the forecasts relative to the actual data 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
-  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+  labs(y = "Total Trips",
+       title = "Total Australian domestic overnight trips")
 ```
 
 ```{r}
@@ -280,7 +283,8 @@ tt_split %>%
   forecast(h = "3 years") %>% 
   # Compute accuracy of the forecasts relative to the actual data 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5) + 
-  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+  labs(y = "Total Trips",
+       title = "Total Australian domestic overnight trips")
 ```
 
 
