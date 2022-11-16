@@ -7,24 +7,30 @@ This repository provides materials for a session that is part of the [I2DS Tools
 
 ### Session contents
 
-This session will introduce you to the modern data wrangling workflow with R and dplyr. Data wrangling is one of the core steps in the data science workflow. dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges, including the manipulation of datasets and variables. 
+This session will introduce you to tidy temporal data and tidy forecasting with fable. Forecasting based on temporal data is highly important for many areas of policy-making and business and thus a highly relevant skill for a data scientist. While tsibble provides the data structure based on the principles of tidy data, fable is a complementary package that uses tsibble objects and allows us to specify models to create forecasts. 
 
 ### Main learning objectives
 
-The goals of this session are to (1) equip you with conceptual knowledge about the dplyr package and data wrangling workflow, (2) show you the three key verbs of the pacakge, and (3) provide you with practice material as well as some further readings.
+The goals of this session are to (1) equip you with conceptual knowledge about temporal data and the tsibble package, (2) show you a forecasting workflow using fable, and (3) provide you with a hands-on exercise to allow you to apply your tsibble and fable skills. 
+
+For those who are keen to learn more, please check out the list of further resources.
 
 
 ## Instructors
 
-- Simon Munzert ([website](http://simonmunzert.github.io/), [twitter](https://twitter.com/simonsaysnothin))
-- Kermit the Frog ([website](https://en.wikipedia.org/wiki/Kermit_the_Frog), [twitter](https://twitter.com/KermitTheFrog))
+- Justus v. Samson-Himmelstjerna ([LinkedIn](linkedin.com/in/justus-v-samson-himmelstjerna-bb592617a), [GitHub](https://github.com/jvsamson))
+- Oskar Krafft ([LinkedIn](linkedin.com/in/oskar-krafft-883ab31a2), [GitHub](https://github.com/OskarKrafft))
 
 
 ## Further resources
 
-- [dplyr overview at dplyr.tidyverse.org](https://dplyr.tidyverse.org/)
-- [Hands-on dplyr tutorial by Data School on YouTube](https://www.youtube.com/watch?v=jWjqLW-u3hc)
-- [R for Data Science book - part on data wrangling](https://r4ds.had.co.nz/wrangle-intro.html)
+- [tsibble overview at dplyr.tidyverse.org](https://tsibble.tidyverts.org)
+- [fable overview at dplyr.tidyverse.org](https://fable.tidyverts.org)
+- [Cran Webpage by Tsibble Creator](http://cran.nexr.com/web/packages/tsibble/vignettes/intro-tsibble.html)
+- [Cran Package for tsibble] (https://cran.r-project.org/web/packages/tsibble/tsibble.pdf)
+- [Cran Package for fable] (https://cran.r-project.org/web/packages/fable/fable.pdf)
+- [Hands-on fable tutorial by Package maintainer](https://www.mitchelloharawild.com/blog/fable/)
+- [Forecasting: Principles and Practice - Online Book](https://otexts.com/fpp3/]
 
 
 ## License
@@ -33,6 +39,9 @@ The material in this repository is made available under the [MIT license](http:/
 
 ## Statement of contributions
 
-**Simon Munzert** prepared the practice material and post-processed the recording.
+In general, both authors collaborated closely together. The division below was made mostly for the efficient execution of the concept that was developed together.
 
-**Kermit the Frog** prepared the presentation slides and recording. He also provided an example to the practice material.
+**Justus v. Samson-Himmelstjerna** prepared the presentation, including slides, and post-processing of the recording.
+
+**Oskar Krafft** prepared the practice materials and the code for the slides.
+
