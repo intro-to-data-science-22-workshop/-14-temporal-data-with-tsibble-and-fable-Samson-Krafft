@@ -185,7 +185,8 @@ tourism_t_trips <- tourism %>%
 
 tourism_t_trips %>% 
   autoplot(Trips) +
-  labs(y = "Total Trips", title = "Total Australian domestic overnight trips")
+  labs(y = "Total Trips", 
+       title = "Total Australian domestic overnight trips")
 ```
 
 ## 2.Data Exploration
