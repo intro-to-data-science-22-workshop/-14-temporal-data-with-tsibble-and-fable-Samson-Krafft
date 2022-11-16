@@ -54,99 +54,90 @@ library(ggplot2)
 
 ------------------------------------------------------------------------
 
-### Task 1 - Temporal Data with Tsibble [X points in total]
+### Task 1 - Introduction: Create Tsibble objects  [2 points in total]
 
-**Important concepts** - tsibble object - index variable - key
-variable - multiple time series in one tsibble object - time class
-function
-
-**functions used**: - tsibble() - mutate() + yearmonth() - autoplot()
-from ggplot2
 
 TASK DESCRIPTION
 
-a)  Create a tsibble object [X points]
+a)  Create a tsibble object that has "Year" as index and "Observation" key [0.5 points]
 
 ```{r}
+my_year_vector <- 2010:2022
+my_observation_vector <- rpois(n = 13, lambda = 50)
+
+# Put your code here
 y <- tsibble(
-  Year = 2015:2019,
-  Observation = c(123, 39, 78, 52, 110),
-  index = Year
+  Year = my_year_vector,
+  Observation = my_observation_vector,
+  index = Year,
+  key = Observation
 )
+
+y
 ```
 
-<br>
-
-b)  convert "monthly/weekly/daily" data into tsibble object [X points]
-
+b)  Turn the data.frame into a tsibble object, setting "Month" as index [1.5 points]
 ```{r}
-# Put Your Code here
-
 z <- data.frame(Month = c("2022 Jan", "2022 Feb", "2022 Mar", "2022 Apr", "2022 May"),
                 Observations = c(50, 23, 34, 30, 25))
 
+# Put your code here
 z %>%
   mutate(Month = yearmonth(Month)) %>%
   as_tsibble(index = Month)
 ```
 
-<br>
+------------------------------------------------------------------------
 
-d)  Multiple time-series in one object [X points]
+### Task 2 - Forecasting Workflow: Data Preperation and Manipulation  [9 points in total]
 
-```{r}
-# Put Your Your Code here
-olympic_running
-```
 
-<br>
+For the rest of the workshop, we will be using the "global_economy" dataset from the tsiblledata package.
 
-d)  Read a CSV file into tsibble and convert it to a tsibble [X points]
+a)  EXERCISE DESCRIPTION [X points]
 
 ```{r}
-# Put Your Code here
-
-prison <- readr::read_csv("https://OTexts.com/fpp3/extrafiles/prison_population.csv")
-prison <- prison %>%
-  mutate(Quarter = yearquarter(Date)) %>%
-  select(-Date) %>%
-  as_tsibble(key = c(State, Gender, Legal, Indigenous),
-             index = Quarter)
+global_economy
 ```
 
-<br>
-
-d)  dplyr and tsibble [X points]
 
 ```{r}
-# Put Your Code here
-a10 <- PBS %>% 
-  filter(ATC == "A10") %>% 
-  select(Month, Concession, Type, Cost) %>%
-  summarise(TotalC = sum(Cost)) %>% # combine data across keys
-  mutate(Cost = TotalC/1e6) # change units from dollars to million of dollar
+has_gaps(global_economy, .full = TRUE) %>% 
+  filter(.gaps == TRUE)
+```
+```{r}
+global_economy %>% 
+  count_gaps(.full = TRUE)
+```
+```{r}
+fill_gaps(global_economy, .full = TRUE)
 ```
 
-<br>
-
-d)  Time plots [X points]
+### Task 2 - Forecasting Workflow: Model specification and forecasting  [9 points in total]
 
 ```{r}
-# Put Your Code here
-
-melsyd_economy <- ansett %>%
-  filter(Airports == "MEL-SYD", Class == "Economy") %>%
-  mutate(Passengers = Passengers/1000)
-autoplot(melsyd_economy, Passengers) +
-  labs(title = "Ansett airlines economy class",
-       subtitle = "Melbourne-Sydney",
-       y = "Passengers ('000)")
+gdppc <- global_economy %>%
+  mutate(GDP_per_capita = GDP / Population)
 ```
-
-<br>
-
-d)  EXERCISE DESCRIPTION [X points]
 
 ```{r}
-# Put Your Code here
+gdppc %>%
+  filter(Country == "Sweden") %>%
+  autoplot(GDP_per_capita) +
+  labs(y = "$US", title = "GDP per capita for Sweden")
 ```
+```{r}
+fit <- gdppc %>%
+  model(trend_model = TSLM(GDP_per_capita ~ trend()))
+
+fit %>% forecast(h = "3 years")
+```
+
+```{r}
+fit %>%
+  forecast(h = "3 years") %>%
+  filter(Country == "Sweden") %>%
+  autoplot(gdppc) +
+  labs(y = "$US", title = "GDP per capita for Sweden")
+```
+

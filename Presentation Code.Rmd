@@ -54,12 +54,6 @@ library(urca)
 
 # Tsibble Code
 
-**Important concepts** - tsibble object - index variable - key
-variable - multiple time series in one tsibble object - time class
-function
-
-**functions used**: - tsibble() - mutate() + yearmonth() - autoplot()
-from ggplot2
 
 ## Object creation with 'tsibble()'
 
@@ -74,58 +68,130 @@ y <- tsibble(
 y
 ```
 
-## Object creation with 'as_tsibble()'
+## Handle *implicit missing values*
+
+What are implicit missing values and how are they different from explicit missing values?
+
+Implicit missing values represent a gap in the observations based on the time series index. Many operations assume that an intact vector input ordered in time, and thus, dealing with implicit missing values becomes relevant.
+
+Tsibble provides 4 functions that help to understand and deal with implicit missing values.
+(1) has_gaps() checks if there are implicit values missing
+(2) scan_gaps() reports all missing values
+(3) count_gaps() sums up the time ranges that are absent from the data
+(4) fill_gaps() turns implicit missing values into explicit ones, along with imputing values by values or functions
+
+The "pedestrian" dataset contains the hourly pedestrian counts from 2015-01-01 to 2016-12-31 at 4 sensors in the city of Melbourne.
 
 ```{r}
-weather <- nycflights13::weather %>% 
-  select(origin, time_hour, temp, humid, precip)
-weather_tsbl <- as_tsibble(weather, key = origin, index = time_hour)
+df_pedestrian <- as.data.frame(pedestrian)
+df_pedestrian
+```
 
-weather_tsbl
+## 1. Lets turn the pedestrian dataframe into a tsibble object using "Sensor" as a key and "Data_Time" as index
+
+```{r}
+tsbl_pedestrian <- df_pedestrian %>% 
+  as_tsibble(key = Sensor, index = Date_Time)
+tsbl_pedestrian
+```
+
+## 2. Explore implicit missing values with "has, scan, and count_gaps"
+
+```{r}
+has_gaps(tsbl_pedestrian, .full = TRUE)
+```
+As we can see, each sensor has gaps in time.
+Lets create a list of all implicit missing values
+
+```{r}
+scan_gaps(tsbl_pedestrian, .full = TRUE)
+```
+
+as we can see. There are in total 4,139 implicit missing observations. Lets investigate the distribution between each Sensor!
+
+```{r}
+ped_gaps <- tsbl_pedestrian %>% 
+  count_gaps(.full = TRUE)
+ped_gaps
+```
+
+which Sensor has the most missing observations?
+
+```{r}
+ped_gaps %>% 
+  group_by(Sensor) %>% 
+  summarise(Sensor = Sensor,
+            Total_missing = sum(.n)) %>% 
+  distinct()
+```
+## 3. Fill the gaps with fill_gaps() ! 
+
+with NAs
+```{r}
+ped_full <- tsbl_pedestrian %>% 
+  fill_gaps(.full = TRUE)
+ped_full %>% 
+  filter(is.na(Count))
+```
+all previously identified 4,139 observations now have NAs!
+
+But what if we want to avoid NAs in order to conduct certain operations.
+
+we can also fill the gaps with zeros or any other given value
+
+```{r}
+tsbl_pedestrian %>% 
+  fill_gaps(Count = 0L, .full = TRUE) %>% 
+  filter(Count == 0L)
+```
+we can see that there are 8 more rows than expected. This is probably due to some original observations where Count == 0
+
+We can also fill the gaps using a function. For example, we might consider it appropriate to fill the gaps with the mean count of the sensor!
+```{r}
+tidy_pedestrians <- tsbl_pedestrian %>% 
+  group_by_key() %>% 
+  fill_gaps(Count = mean(Count), .full = TRUE)
+```
+
+## 4. Lets find the the station with the most busy day!
+
+```{r}
+daily_ped <- tsbl_pedestrian %>% 
+  group_by_key() %>% 
+  index_by(date = ~ as.Date.POSIXct(.)) %>% 
+  summarise(
+    ped_mean = mean(Count, na.rm = TRUE)
+  ) 
+daily_ped %>% arrange(desc(ped_mean))
 ```
 
 ```{r}
-# convert "monthly/weekly/daily" data into tsibble object
-z <- data.frame(Month = c("2022 Jan", "2022 Feb", "2022 Mar", "2022 Apr", "2022 May"),
-                Observations = c(50, 23, 34, 30, 25))
-
-z %>%
-  mutate(Month = yearmonth(Month)) %>%
-  as_tsibble(index = Month)
+daily_ped %>% filter(Sensor == "Birrarung Marr") %>% autoplot()
 ```
 
-```{r}
-# Time plots
-melsyd_economy <- ansett %>%
-  filter(Airports == "MEL-SYD", Class == "Economy") %>%
-  mutate(Passengers = Passengers/1000)
-autoplot(melsyd_economy, Passengers) +
-  labs(title = "Ansett airlines economy class",
-       subtitle = "Melbourne-Sydney",
-       y = "Passengers ('000)")
-```
+
+------------------------------------------------------------------------
 
 # Fable
-
-**Important concepts** - Model specification - Model estimation
-
-**functions used**: - model() - report()
 
 ```{r}
 tourism
 ```
 
+## 1. Data Manipulation 
+
+We are interested in the total amount of trips
+
 ```{r}
-# Data Manipulation
 tourism_t_trips <- tourism %>% 
   summarise(Trips = sum(Trips))
 tourism_t_trips
 ```
 
-```{r}
-# Data Exploration
+## 2.Data Exploration
 
-tourism_total_trips %>% 
+```{r}
+tourism_t_trips %>% 
   autoplot(Trips)
 ```
 
@@ -133,8 +199,9 @@ What can we see? There is seasonality and a negative trend that turns
 positive after 2010. As experienced forecasters, we know that under such
 conditions, we should choose a exponential smoothing model.
 
+## 3. Comparing forecasting performance of multiple models
+
 ```{r}
-# Comparing multiple models
 fit <- tourism_t_trips %>% 
   model(
     ets = ETS(Trips),
@@ -142,30 +209,12 @@ fit <- tourism_t_trips %>%
     lm = TSLM(Trips ~ trend() + season())
   )
 
-# plot forecast
 fit %>% 
   forecast(h = "2 years") %>% 
   autoplot(tourism_t_trips, level = 80, alpha = 0.5)
 ```
 
-# Scaling up even further (not included on the slides)
-
-```{r}
-fit <- tourism_t_trips %>% 
-  model(
-    ets = ETS(Trips),
-    arima = ARIMA(Trips),
-    lm = TSLM(Trips ~ trend(knots = yearquarter("2010 Q1")) + season())
-  )
-
-fit %>% 
-  forecast(h = "2 years") %>% 
-  autoplot(tourism_t_trips, level = 80, alpha = 0.5)
-```
-
-```{r}
-accuracy(fit)
-```
+## Train - Test Split
 
 ```{r}
 tourism_t_trips %>% 
@@ -175,55 +224,10 @@ tourism_t_trips %>%
   model(
     ets = ETS(Trips),
     arima = ARIMA(Trips),
-    lm = TSLM(Trips ~ trend(knots = yearquarter("2010 Q1")) + season())
+    lm = TSLM(Trips ~ trend() + season())
   ) %>% 
   # Forecast the witheld time peroid (2015-2017)
   forecast(h = "3 years") %>% 
   # Compute accuracy of the forecasts relative to the actual data 
   accuracy(tourism_t_trips)
-```
-
-```{r}
-fit <- tourism_t_trips %>% 
-  model(
-    ets = ETS(Trips),
-    arima = ARIMA(Trips)
-  ) %>% 
-  mutate(
-    average = (ets + arima) / 2
-  )
-
-fit %>% 
-  forecast(h = "2 years") %>% 
-  autoplot(tourism_t_trips, level = 80, alpha = 0.5)
-```
-
-```{r}
-tourism_state <- tourism %>% 
-  group_by(State) %>% 
-  summarise(Trips = sum(Trips))
-tourism_state
-```
-
-```{r}
-tourism_state %>% 
-  autoplot(Trips)
-```
-
-```{r}
-fit <- tourism_state %>% 
-  model(
-    ets = ETS(Trips),
-    arima = ARIMA(Trips)
-  ) %>% 
-  mutate(
-    average = (ets + arima)/2
-  )
-fit
-```
-
-```{r}
-fit %>% 
-  forecast(h = "2 years") %>% 
-  autoplot(tourism_state, level = NULL)
 ```
